@@ -1,32 +1,11 @@
 const express = require("express");
-const products = require("./data");
-
+const productsRouter = require("./apis/products/routes");
 const app = express();
 
 app.use(express.json());
+app.use("/api/products", productsRouter);
 
-app.get("/api/products.", (req, res) => {
-	return res.json(products);
-});
-
-app.post("/api/products", (req, res) => {
-	products.push(req.body);
-	res.status(201);
-	return res.json(req.body);
-});
-
-app.delete("api/products/:productId", (req, res) => {
-	const productId = req.params.productId;
-	const product = products.find((product) => product.id === +productId);
-	if (product) {
-		products = products.filter((product) => product.id !== +productId);
-		return res.status(204).end;
-	} else {
-		return res.status(404).json({ message: "Product not fount" });
-	}
-});
-
-const PORT = 8000;
+const PORT = 8001;
 app.listen(PORT, () => {
 	console.log(`This is Port Number ${PORT}`);
 });
