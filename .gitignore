@@ -1,5 +1,5 @@
 #DataBase
-database.js
+db/database.js
 
 # Logs
 logs

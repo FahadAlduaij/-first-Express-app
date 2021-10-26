@@ -1,12 +1,12 @@
 const { Mongoose } = require("mongoose");
-const Product = require("./models/Product");
+const Product = require("../../db/models/Product");
 
 exports.fetchProduct = async (req, res) => {
 	try {
 		const products = await Product.find();
 		return res.json(products);
 	} catch (error) {
-		return res.status(500).json({ message: error });
+		return res.status(500).json({ message: error.message });
 	}
 };
 
@@ -15,7 +15,7 @@ exports.createProduct = async (req, res) => {
 		const newProduct = await Product.create(req.body);
 		return res.status(201).json(newProduct);
 	} catch (error) {
-		res.status(500).json({ message: error });
+		res.status(500).json({ message: error.message });
 	}
 };
 
@@ -29,7 +29,7 @@ exports.deleteProduct = async (req, res) => {
 			res.status(404).json({ message: "This Product Doesn't Exist" });
 		}
 	} catch (error) {
-		res.status(500).json({ message: error });
+		res.status(500).json({ message: error.message });
 	}
 };
 
@@ -46,6 +46,6 @@ exports.updateProduct = async (req, res) => {
 			res.status(404).json({ message: "This product doesn't exist" });
 		}
 	} catch (error) {
-		res.status(500).json({ message: error });
+		res.status(500).json({ message: error.message });
 	}
 };
