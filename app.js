@@ -1,11 +1,14 @@
 const express = require("express");
-const productsRouter = require("./apis/products/routes");
 const app = express();
+const PORT = 8001;
+const productsRouter = require("./apis/products/routes");
+const connectDB = require("./database");
 
 app.use(express.json());
 app.use("/api/products", productsRouter);
 
-const PORT = 8001;
+connectDB();
+
 app.listen(PORT, () => {
 	console.log(`This is Port Number ${PORT}`);
 });
