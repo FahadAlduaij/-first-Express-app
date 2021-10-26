@@ -23,8 +23,8 @@ exports.deleteProduct = async (req, res) => {
 	try {
 		foundProduct = await Product.findById(req.params.productId);
 		if (foundProduct) {
-			const removeProduct = await Product.remove(foundProduct);
-			return res.status(204).json(removeProduct);
+			await Product.remove(foundProduct);
+			return res.status(204).end();
 		} else {
 			res.status(404).json({ message: "This Product Doesn't Exist" });
 		}
@@ -39,7 +39,8 @@ exports.updateProduct = async (req, res) => {
 		if (foundProduct) {
 			const updateProduct = await Product.findOneAndUpdate(
 				foundProduct,
-				req.body
+				req.body,
+				{ new: true }
 			);
 			return res.status(204).json(updateProduct);
 		} else {
