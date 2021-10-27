@@ -1,4 +1,5 @@
 const { Mongoose } = require("mongoose");
+const { findByIdAndRemove } = require("../../db/models/Product");
 const Product = require("../../db/models/Product");
 
 exports.fetchProduct = async (req, res) => {
