@@ -1,3 +1,4 @@
+const { text } = require("express");
 const express = require("express");
 const app = express();
 const PORT = 8001;
@@ -9,20 +10,28 @@ app.use(express.json());
 // Console Log URL's with Middleware
 app.use((req, res, next) => {
 	console.log(
-		`${req.method} ${req.protocol}://${req.hostname}:${PORT}${req.originalUrl}`
+		`${req.method} ${req.protocol}://${req.get("host")}${req.originalUrl}`
 	);
 	next();
 });
 
 app.use("/api/products", productsRouter);
 
-connectDB();
-
 app.use((req, res, next) => {
 	res.status(404).json({ message: "Path Not Found" });
-
 	next();
 });
+
+app.use((err, req, res, next) => {
+	res
+		.status(err.status || 500)
+		.json(err.message || { message: "There is an Internal Server Error!" });
+});
+
+connectDB();
 app.listen(PORT, () => {
 	console.log(`This is Port Number ${PORT}`);
 });
+
+
+

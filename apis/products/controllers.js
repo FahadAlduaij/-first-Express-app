@@ -2,39 +2,42 @@ const { Mongoose } = require("mongoose");
 const { findByIdAndRemove } = require("../../db/models/Product");
 const Product = require("../../db/models/Product");
 
-exports.fetchProduct = async (req, res) => {
+exports.fetchProduct = async (req, res, next) => {
 	try {
 		const products = await Product.find();
 		return res.status(200).json(products);
 	} catch (error) {
-		return res.status(500).json({ message: error.message });
+		next(error);
 	}
 };
 
-exports.createProduct = async (req, res) => {
+exports.createProduct = async (req, res, next) => {
 	try {
 		const newProduct = await Product.create(req.body);
 		return res.status(201).json(newProduct);
 	} catch (error) {
-		res.status(500).json({ message: error.message });
+		next(error);
 	}
 };
 
-exports.deleteProduct = async (req, res) => {
+exports.deleteProduct = async (req, res, next) => {
 	try {
 		foundProduct = await Product.findById(req.params.productId);
 		if (foundProduct) {
 			await Product.remove(foundProduct);
 			return res.status(204).end();
 		} else {
-			res.status(404).json({ message: "This Product Doesn't Exist" });
+			next({
+				status: 404,
+				message: "Product Not Found",
+			});
 		}
 	} catch (error) {
-		res.status(500).json({ message: error.message });
+		next(error);
 	}
 };
 
-exports.updateProduct = async (req, res) => {
+exports.updateProduct = async (req, res, next) => {
 	const productId = req.params.productId;
 
 	try {
@@ -46,9 +49,12 @@ exports.updateProduct = async (req, res) => {
 		if (updateProduct) {
 			return res.status(200).json(updateProduct);
 		} else {
-			res.status(404).json({ message: "This product doesn't exist" });
+			next({
+				status: 404,
+				message: "Product Not Found",
+			});
 		}
 	} catch (error) {
-		res.status(500).json({ message: error.message });
+		next(error);
 	}
 };
