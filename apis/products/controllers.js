@@ -4,7 +4,7 @@ const Product = require("../../db/models/Product");
 exports.fetchProduct = async (req, res) => {
 	try {
 		const products = await Product.find();
-		return res.json(products);
+		return res.status(200).json(products);
 	} catch (error) {
 		return res.status(500).json({ message: error.message });
 	}
@@ -34,15 +34,16 @@ exports.deleteProduct = async (req, res) => {
 };
 
 exports.updateProduct = async (req, res) => {
+	const productId = req.params.productId;
+
 	try {
-		foundProduct = await Product.findById(req.params.productId);
-		if (foundProduct) {
-			const updateProduct = await Product.findOneAndUpdate(
-				foundProduct,
-				req.body,
-				{ new: true }
-			);
-			return res.status(204).json(updateProduct);
+		const updateProduct = await Product.findOneAndUpdate(
+			{ _id: productId },
+			req.body,
+			{ new: true, runValidators: true }
+		);
+		if (updateProduct) {
+			return res.status(200).json(updateProduct);
 		} else {
 			res.status(404).json({ message: "This product doesn't exist" });
 		}
