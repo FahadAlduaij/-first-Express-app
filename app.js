@@ -1,4 +1,3 @@
-const { text } = require("express");
 const express = require("express");
 const app = express();
 const PORT = 8001;
@@ -15,13 +14,16 @@ app.use((req, res, next) => {
 	next();
 });
 
+// Route For Products
 app.use("/api/products", productsRouter);
 
+// Handle Path Not Found
 app.use((req, res, next) => {
 	res.status(404).json({ message: "Path Not Found" });
 	next();
 });
 
+// Handle Errors
 app.use((err, req, res, next) => {
 	res
 		.status(err.status || 500)
@@ -32,6 +34,3 @@ connectDB();
 app.listen(PORT, () => {
 	console.log(`This is Port Number ${PORT}`);
 });
-
-
-
