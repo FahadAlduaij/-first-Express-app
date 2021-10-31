@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 // Route For Products
 app.use("/api/products", productsRouter);
 // Creating path for image
-app.use("/assets", express.static(path.join(__dirname, "media")));
+app.use("/media", express.static(path.join(__dirname, "media")));
 
 // Handle Path Not Found
 app.use((req, res, next) => {
