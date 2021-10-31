@@ -25,6 +25,11 @@ exports.fetchProduct = async (req, res, next) => {
 // Create New Product
 exports.createProduct = async (req, res, next) => {
 	try {
+		if (req.file) {
+			req.body.image = `${req.protocol}://${req.get("host")}${req.originalUrl}${
+				req.file.filename
+			}`;
+		}
 		const newProduct = await Product.create(req.body);
 		return res.status(201).json(newProduct);
 	} catch (error) {
@@ -45,6 +50,9 @@ exports.deleteProduct = async (req, res, next) => {
 // Updating Product
 exports.updateProduct = async (req, res, next) => {
 	try {
+		if (req.file) {
+			req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+		}
 		const updateProduct = await Product.findOneAndUpdate(
 			{ _id: req.product._id },
 			req.body,

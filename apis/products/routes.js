@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../../middleware/multer");
 
 // Functions
 const {
@@ -27,10 +28,10 @@ router.param("productId", async (req, res, next, productId) => {
 // Routes
 router.get("/", fetchProduct);
 
-router.post("/", createProduct);
+router.post("/", upload.single("image"), createProduct);
 
 router.delete("/:productId", deleteProduct);
 
-router.put("/:productId", updateProduct);
+router.put("/:productId", upload.single("image"), updateProduct);
 
 module.exports = router;

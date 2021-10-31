@@ -1,10 +1,13 @@
+const connectDB = require("./db/database");
 const express = require("express");
 const app = express();
 const PORT = 8001;
 const productsRouter = require("./apis/products/routes");
-const connectDB = require("./db/database");
+const cors = require("cors");
+const path = require("path");
 
 app.use(express.json());
+app.use(cors());
 
 // Console Log URL's with Middleware
 app.use((req, res, next) => {
@@ -16,6 +19,8 @@ app.use((req, res, next) => {
 
 // Route For Products
 app.use("/api/products", productsRouter);
+// Creating path for image
+app.use("/assets", express.static(path.join(__dirname, "media")));
 
 // Handle Path Not Found
 app.use((req, res, next) => {
@@ -30,6 +35,7 @@ app.use((err, req, res, next) => {
 		.json(err.message || { message: "There is an Internal Server Error!" });
 });
 
+// Import DB and Listen To Port
 connectDB();
 app.listen(PORT, () => {
 	console.log(`This is Port Number ${PORT}`);
