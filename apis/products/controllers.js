@@ -2,6 +2,16 @@ const { Mongoose } = require("mongoose");
 const { findByIdAndRemove } = require("../../db/models/Product");
 const Product = require("../../db/models/Product");
 
+// Param MiddleWare
+exports.findProduct = async (productId, next) => {
+	try {
+		const product = await Product.findById(productId);
+		return product;
+	} catch (error) {
+		next(error);
+	}
+};
+
 // Fetching The Data
 exports.fetchProduct = async (req, res, next) => {
 	try {
@@ -25,16 +35,8 @@ exports.createProduct = async (req, res, next) => {
 // Delete Product
 exports.deleteProduct = async (req, res, next) => {
 	try {
-		foundProduct = await Product.findById(req.params.productId);
-		if (foundProduct) {
-			await Product.remove(foundProduct);
-			return res.status(204).end();
-		} else {
-			next({
-				status: 404,
-				message: "Product Not Found",
-			});
-		}
+		await Product.remove(req.product);
+		return res.status(204).end();
 	} catch (error) {
 		next(error);
 	}
@@ -42,22 +44,13 @@ exports.deleteProduct = async (req, res, next) => {
 
 // Updating Product
 exports.updateProduct = async (req, res, next) => {
-	const productId = req.params.productId;
-
 	try {
 		const updateProduct = await Product.findOneAndUpdate(
-			{ _id: productId },
+			{ _id: req.product._id },
 			req.body,
 			{ new: true, runValidators: true }
 		);
-		if (updateProduct) {
-			return res.status(200).json(updateProduct);
-		} else {
-			next({
-				status: 404,
-				message: "Product Not Found",
-			});
-		}
+		res.status(200).json(updateProduct);
 	} catch (error) {
 		next(error);
 	}
