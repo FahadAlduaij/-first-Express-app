@@ -3,6 +3,7 @@ const app = express();
 const PORT = 8001;
 const connectDB = require("./db/database");
 
+const typesRouter = require("./apis/types/type.routes");
 const productsRouter = require("./apis/products/routes");
 const cors = require("cors");
 const path = require("path");
@@ -13,8 +14,9 @@ const { Logger, LogURL, ErrorHandler } = require("./middleware/MiddleWare");
 app.use(express.json());
 app.use(cors());
 
-// Route For Products
+// Routes
 app.use("/api/products", productsRouter);
+app.use("/api/types", typesRouter);
 
 // Creating path for image
 app.use("/media", express.static(path.join(__dirname, "media")));

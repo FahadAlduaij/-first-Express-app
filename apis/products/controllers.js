@@ -15,21 +15,11 @@ exports.findProduct = async (productId, next) => {
 // Fetching The Data
 exports.fetchProduct = async (req, res, next) => {
 	try {
-		const products = await Product.find();
+		const products = await Product.find().populate({
+			path: "type",
+			select: "-product",
+		});
 		return res.status(200).json(products);
-	} catch (error) {
-		next(error);
-	}
-};
-
-// Create New Product
-exports.createProduct = async (req, res, next) => {
-	try {
-		if (req.file) {
-			req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
-		}
-		const newProduct = await Product.create(req.body);
-		return res.status(201).json(newProduct);
 	} catch (error) {
 		next(error);
 	}

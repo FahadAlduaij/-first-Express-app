@@ -18,6 +18,10 @@ const productSchema = mongoose.Schema(
 		},
 
 		date: { type: Date, default: Date.now },
+		type: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Type",
+		},
 	},
 	{ timestamps: true }
 );

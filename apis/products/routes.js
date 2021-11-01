@@ -5,7 +5,6 @@ const upload = require("../../middleware/multer");
 // Import Functions
 const {
 	fetchProduct,
-	createProduct,
 	deleteProduct,
 	updateProduct,
 	findProduct,
@@ -13,7 +12,6 @@ const {
 
 // Routes
 router.get("/", fetchProduct);
-router.post("/", upload.single("image"), createProduct);
 router.delete("/:productId", deleteProduct);
 router.put("/:productId", upload.single("image"), updateProduct);
 
