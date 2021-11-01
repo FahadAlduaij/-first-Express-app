@@ -26,9 +26,7 @@ exports.fetchProduct = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
 	try {
 		if (req.file) {
-			req.body.image = `${req.protocol}://${req.get("host")}/media/${
-				req.file.filename
-			}`;
+			req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
 		}
 		const newProduct = await Product.create(req.body);
 		return res.status(201).json(newProduct);
