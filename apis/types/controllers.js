@@ -14,7 +14,10 @@ exports.findType = async (shopID, next) => {
 
 exports.fetchType = async (req, res, next) => {
 	try {
-		const type = await Type.find().populate("product");
+		const type = await Type.find().populate({
+			path: "product",
+			select: "-shop",
+		});
 		return res.status(200).json(type);
 	} catch (error) {
 		next(error);
