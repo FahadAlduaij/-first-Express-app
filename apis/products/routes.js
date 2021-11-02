@@ -10,11 +10,6 @@ const {
 	findProduct,
 } = require("./controllers");
 
-// Routes
-router.get("/", fetchProduct);
-router.delete("/:productId", deleteProduct);
-router.put("/:productId", upload.single("image"), updateProduct);
-
 // Param
 router.param("productId", async (req, res, next, productId) => {
 	const product = await findProduct(productId, next);
@@ -28,5 +23,11 @@ router.param("productId", async (req, res, next, productId) => {
 		});
 	}
 });
+
+// Routes
+router.get("/", fetchProduct);
+router.delete("/:productId", deleteProduct);
+router.put("/:productId", upload.single("image"), updateProduct);
+
 
 module.exports = router;
