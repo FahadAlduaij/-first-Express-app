@@ -6,13 +6,14 @@ const {
 	createType,
 	createProduct,
 	findType,
+	deleteType,
 } = require("./controllers");
 
 // Param
-router.param("typeID", async (req, res, next, typeID) => {
-	const type = await findType(typeID, next);
+router.param("shopID", async (req, res, next, shopID) => {
+	const type = await findType(shopID, next);
 	if (type) {
-		req.type = type;
+		req.shop = type;
 		next();
 	} else {
 		next({
@@ -25,6 +26,7 @@ router.param("typeID", async (req, res, next, typeID) => {
 // Routes
 router.get("/", fetchType);
 router.post("/", createType);
-router.post("/:typeID/products", upload.single("image"), createProduct);
+router.post("/:shopID/products", upload.single("image"), createProduct);
+router.delete("/:shopID", deleteType);
 
 module.exports = router;

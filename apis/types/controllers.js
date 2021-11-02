@@ -3,9 +3,9 @@ const Type = require("../../db/models/Type");
 const Product = require("../../db/models/Product");
 
 // Param MiddleWare
-exports.findType = async (typeID, next) => {
+exports.findType = async (shopID, next) => {
 	try {
-		const type = await Type.findById(typeID);
+		const type = await Type.findById(shopID);
 		return type;
 	} catch (error) {
 		next(error);
@@ -33,8 +33,8 @@ exports.createType = async (req, res, next) => {
 // Create New Product
 exports.createProduct = async (req, res, next) => {
 	try {
-		const typeID = req.params.typeID;
-		req.body.type = typeID;
+		const shopID = req.params.shopID;
+		req.body.shop = shopID;
 
 		if (req.file)
 			req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
@@ -42,11 +42,20 @@ exports.createProduct = async (req, res, next) => {
 		const newProduct = await Product.create(req.body);
 
 		await Type.findByIdAndUpdate(
-			{ _id: typeID },
+			{ _id: shopID },
 			{ $push: { product: newProduct._id } }
 		);
 
 		return res.status(201).json(newProduct);
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.deleteType = async (req, res, next) => {
+	try {
+		await Type.remove({ _id: req.shop });
+		return res.status(204).end();
 	} catch (error) {
 		next(error);
 	}

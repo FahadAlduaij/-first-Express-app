@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongooseSlugPlugin = require("mongoose-slug-plugin");
 
 const typeSchema = mongoose.Schema(
 	{
@@ -16,4 +17,5 @@ const typeSchema = mongoose.Schema(
 	}
 );
 
+typeSchema.plugin(mongooseSlugPlugin, { tmpl: "<%=name%>" });
 module.exports = mongoose.model("Type", typeSchema);

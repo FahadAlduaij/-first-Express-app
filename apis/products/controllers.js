@@ -16,7 +16,7 @@ exports.findProduct = async (productId, next) => {
 exports.fetchProduct = async (req, res, next) => {
 	try {
 		const products = await Product.find().populate({
-			path: "type",
+			path: "shop",
 			select: "-product",
 		});
 		return res.status(200).json(products);

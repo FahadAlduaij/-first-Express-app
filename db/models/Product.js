@@ -18,7 +18,7 @@ const productSchema = mongoose.Schema(
 		},
 
 		date: { type: Date, default: Date.now },
-		type: {
+		shop: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Type",
 		},
