@@ -1,17 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../../middleware/multer");
-const Product = require("../../db/models/Product");
 const {
 	fetchType,
 	createType,
 	createProduct,
 	findType,
-} = require("./type.controllers");
-
-router.get("/", fetchType);
-router.post("/", createType);
-router.post("/:typeID/products", upload.single("image"), createProduct);
+} = require("./controllers");
 
 // Param
 router.param("typeID", async (req, res, next, typeID) => {
@@ -26,5 +21,10 @@ router.param("typeID", async (req, res, next, typeID) => {
 		});
 	}
 });
+
+// Routes
+router.get("/", fetchType);
+router.post("/", createType);
+router.post("/:typeID/products", upload.single("image"), createProduct);
 
 module.exports = router;

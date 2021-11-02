@@ -3,7 +3,7 @@ const app = express();
 const PORT = 8001;
 const connectDB = require("./db/database");
 
-const typesRouter = require("./apis/types/type.routes");
+const typesRouter = require("./apis/types/routes");
 const productsRouter = require("./apis/products/routes");
 const cors = require("cors");
 const path = require("path");
@@ -27,5 +27,5 @@ app.use(ErrorHandler); // Handle Errors
 
 connectDB(); // Import DB
 app.listen(PORT, () => {
-	console.log(`This is Port Number ${PORT}`);
+	console.log(`Server running on port ${PORT}`);
 });

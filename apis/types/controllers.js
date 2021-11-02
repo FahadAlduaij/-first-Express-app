@@ -35,16 +35,17 @@ exports.createProduct = async (req, res, next) => {
 	try {
 		const typeID = req.params.typeID;
 		req.body.type = typeID;
-		if (req.file) {
+
+		if (req.file)
 			req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
-		}
-		console.log("req Body", req.body);
+
 		const newProduct = await Product.create(req.body);
-		console.log("newProduct", newProduct);
+
 		await Type.findByIdAndUpdate(
 			{ _id: typeID },
 			{ $push: { product: newProduct._id } }
 		);
+
 		return res.status(201).json(newProduct);
 	} catch (error) {
 		next(error);
