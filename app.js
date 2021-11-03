@@ -16,9 +16,9 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-app.use("/api/users", userRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/shops", shopsRouter);
+app.use("/api", userRouter);
 
 // Creating path for image
 app.use("/media", express.static(path.join(__dirname, "media")));
