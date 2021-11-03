@@ -5,6 +5,7 @@ const connectDB = require("./db/database");
 
 const shopsRouter = require("./apis/types/routes");
 const productsRouter = require("./apis/products/routes");
+const userRouter = require("./apis/user/routes");
 const cors = require("cors");
 const path = require("path");
 const { Logger, LogURL, ErrorHandler } = require("./middleware/MiddleWare");
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
+app.use("/api/users", userRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/shops", shopsRouter);
 
