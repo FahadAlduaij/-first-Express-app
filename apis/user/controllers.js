@@ -16,10 +16,9 @@ exports.signup = async (req, res, next) => {
 		const payload = {
 			_id: newUser._id,
 			username: newUser.username,
-			exp: JWT_EXPIRATION_MS,
 		};
 
-		const token = jwt.sign(payload, JWT_SECRET);
+		const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "15m" });
 
 		res.status(201).json({ token });
 	} catch (error) {
