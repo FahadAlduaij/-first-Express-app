@@ -22,7 +22,7 @@ exports.fetchType = async (req, res, next) => {
 			.populate({
 				path: "owner",
 				select: "username",
-			});
+			})
 		return res.status(200).json(type);
 	} catch (error) {
 		next(error);
@@ -57,6 +57,9 @@ exports.createProduct = async (req, res, next) => {
 
 		const shopID = req.params.shopID;
 		req.body.shop = shopID;
+
+		const user = req.user._id;
+		req.body.owner = user;
 
 		if (req.file)
 			req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;

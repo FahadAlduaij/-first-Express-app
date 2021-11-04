@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 const upload = require("../../middleware/multer");
 
@@ -26,8 +27,11 @@ router.param("productId", async (req, res, next, productId) => {
 
 // Routes
 router.get("/", fetchProduct);
-router.delete("/:productId", deleteProduct);
+router.delete(
+	"/:productId",
+	passport.authenticate("jwt", { session: false }),
+	deleteProduct
+);
 router.put("/:productId", upload.single("image"), updateProduct);
-
 
 module.exports = router;

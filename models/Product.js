@@ -22,6 +22,10 @@ const productSchema = mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Type",
 		},
+		owner: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+		},
 	},
 	{ timestamps: true }
 );

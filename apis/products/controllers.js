@@ -15,10 +15,15 @@ exports.findProduct = async (productId, next) => {
 // Fetching The Data
 exports.fetchProduct = async (req, res, next) => {
 	try {
-		const products = await Product.find().populate({
-			path: "shop",
-			select: "name",
-		});
+		const products = await Product.find()
+			.populate({
+				path: "shop",
+				select: "name",
+			})
+			.populate({
+				path: "owner",
+				select: "username",
+			});
 		return res.status(200).json(products);
 	} catch (error) {
 		next(error);
@@ -28,7 +33,13 @@ exports.fetchProduct = async (req, res, next) => {
 // Delete Product
 exports.deleteProduct = async (req, res, next) => {
 	try {
-		await Product.remove(req.product);
+		if (!req.user._id.equals(req.product.owner))
+			return next({
+				status: 401,
+				message: "Unauthorized",
+			});
+
+		await Product.deleteOne(req.product);
 		return res.status(204).end();
 	} catch (error) {
 		next(error);
