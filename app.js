@@ -8,7 +8,7 @@ const productsRouter = require("./apis/products/routes");
 const userRouter = require("./apis/user/routes");
 const cors = require("cors");
 const passport = require("passport");
-const { localStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const path = require("path");
 const { Logger, LogURL, ErrorHandler } = require("./middleware/MiddleWare");
 
@@ -20,6 +20,7 @@ app.use(cors());
 // Passport
 app.use(passport.initialize()); // Calling passport
 passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 // Routes
 app.use("/api/products", productsRouter);

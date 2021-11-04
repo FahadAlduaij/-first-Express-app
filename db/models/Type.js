@@ -11,6 +11,10 @@ const typeSchema = mongoose.Schema(
 				ref: "Product",
 			},
 		],
+		owner: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User"
+		}
 	},
 	{
 		timestamps: true,

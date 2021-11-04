@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 const upload = require("../../middleware/multer");
 const {
@@ -18,15 +19,25 @@ router.param("shopID", async (req, res, next, shopID) => {
 	} else {
 		next({
 			status: 404,
-			message: "Type Not Found",
+			message: "Shop Not Found",
 		});
 	}
 });
 
 // Routes
 router.get("/", fetchType);
-router.post("/", createType);
-router.post("/:shopID/products", upload.single("image"), createProduct);
+router.post(
+	"/",
+	passport.authenticate("jwt", { session: false }),
+	upload.single("image"),
+	createType
+);
+router.post(
+	"/:shopID/products",
+	passport.authenticate("jwt", { session: false }),
+	upload.single("image"),
+	createProduct
+);
 router.delete("/:shopID", deleteType);
 
 module.exports = router;

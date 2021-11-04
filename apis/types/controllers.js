@@ -14,10 +14,15 @@ exports.findType = async (shopID, next) => {
 
 exports.fetchType = async (req, res, next) => {
 	try {
-		const type = await Type.find().populate({
-			path: "product",
-			select: "-shop",
-		});
+		const type = await Type.find()
+			.populate({
+				path: "product",
+				select: "-shop",
+			})
+			.populate({
+				path: "owner",
+				select: "username",
+			});
 		return res.status(200).json(type);
 	} catch (error) {
 		next(error);
@@ -26,7 +31,15 @@ exports.fetchType = async (req, res, next) => {
 
 exports.createType = async (req, res, next) => {
 	try {
+		if (req.file)
+			req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
+
+		req.body.owner = req.user._id;
 		const newType = await Type.create(req.body);
+		await newType.populate({
+			path: "owner",
+			select: "username",
+		});
 		return res.status(201).json(newType);
 	} catch (error) {
 		next(error);
@@ -36,6 +49,12 @@ exports.createType = async (req, res, next) => {
 // Create New Product
 exports.createProduct = async (req, res, next) => {
 	try {
+		if (!req.user._id.equals(req.shop.owner))
+			return next({
+				status: 401,
+				message: "Unauthorized",
+			});
+
 		const shopID = req.params.shopID;
 		req.body.shop = shopID;
 
