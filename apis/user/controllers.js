@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { hash } = require("bcrypt");
 const mongoose = require("mongoose");
-const User = require("../../db/models/User");
+const User = require("../../models/User");
 var jwt = require("jsonwebtoken");
 
 const generateToken = (user) => {

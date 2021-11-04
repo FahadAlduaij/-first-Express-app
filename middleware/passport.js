@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
 const JWTStrategy = require("passport-jwt").Strategy;
 const { fromAuthHeaderAsBearerToken } = require("passport-jwt").ExtractJwt;
-const User = require("../db/models/User");
+const User = require("../models/User");
 require("dotenv").config();
 
 exports.localStrategy = new LocalStrategy(async (username, password, done) => {

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const Type = require("../../db/models/Type");
-const Product = require("../../db/models/Product");
+const Type = require("../../models/Type");
+const Product = require("../../models/Product");
 
 // Param MiddleWare
 exports.findType = async (shopID, next) => {

@@ -1,6 +1,6 @@
 const { Mongoose } = require("mongoose");
-const { findByIdAndRemove } = require("../../db/models/Product");
-const Product = require("../../db/models/Product");
+const { findByIdAndRemove } = require("../../models/Product");
+const Product = require("../../models/Product");
 
 // Param MiddleWare
 exports.findProduct = async (productId, next) => {
