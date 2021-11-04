@@ -1,4 +1,5 @@
 #DataBase
+config
 db/database.js
 media
 
