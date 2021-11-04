@@ -49,9 +49,22 @@ exports.deleteProduct = async (req, res, next) => {
 // Updating Product
 exports.updateProduct = async (req, res, next) => {
 	try {
+		if (!req.user._id.equals(req.product.owner)) {
+			return next({
+				status: 401,
+				message: "Unauthorized",
+			});
+		}
+		const shopId = req.product._id;
+		req.body.shop = shopId;
+
+		const user = req.user._id;
+		req.body.owner = user;
+
 		if (req.file) {
 			req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
 		}
+
 		const updateProduct = await Product.findOneAndUpdate(
 			{ _id: req.product._id },
 			req.body,
