@@ -55,7 +55,7 @@ exports.updateProduct = async (req, res, next) => {
 				message: "Unauthorized",
 			});
 		}
-		const shopId = req.product._id;
+		const shopId = req.product;
 		req.body.shop = shopId;
 
 		const user = req.user._id;
