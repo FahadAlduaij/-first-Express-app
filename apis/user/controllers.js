@@ -1,9 +1,8 @@
+require("dotenv").config();
 const { hash } = require("bcrypt");
 const mongoose = require("mongoose");
 const User = require("../../db/models/User");
-const keys = require("../../config/keys");
 var jwt = require("jsonwebtoken");
-const { JWT_EXPIRATION_MS, JWT_SECRET } = require("../../config/keys");
 
 const generateToken = (user) => {
 	const payload = {
@@ -11,7 +10,7 @@ const generateToken = (user) => {
 		username: user.username,
 	};
 
-	return jwt.sign(payload, JWT_SECRET, { expiresIn: "24h" });
+	return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
 };
 
 exports.signup = async (req, res, next) => {
