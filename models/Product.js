@@ -22,7 +22,7 @@ const productSchema = mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Type",
 		},
-		owner: {
+		author: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 		},

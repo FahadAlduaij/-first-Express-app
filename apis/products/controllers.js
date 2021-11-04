@@ -21,7 +21,7 @@ exports.fetchProduct = async (req, res, next) => {
 				select: "name",
 			})
 			.populate({
-				path: "owner",
+				path: "author",
 				select: "username",
 			});
 		return res.status(200).json(products);
