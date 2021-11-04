@@ -3,7 +3,7 @@ const mongooseSlugPlugin = require("mongoose-slug-plugin");
 
 const typeSchema = mongoose.Schema(
 	{
-		name: String,
+		name: { type: String, required: true },
 		image: String,
 		product: [
 			{
