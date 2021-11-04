@@ -8,7 +8,7 @@ const productsRouter = require("./apis/products/routes");
 const userRouter = require("./apis/user/routes");
 const cors = require("cors");
 const passport = require("passport");
-const localStrategy = require("./middleware/passport");
+const { localStrategy } = require("./middleware/passport");
 const path = require("path");
 const { Logger, LogURL, ErrorHandler } = require("./middleware/MiddleWare");
 
@@ -16,6 +16,10 @@ const { Logger, LogURL, ErrorHandler } = require("./middleware/MiddleWare");
 
 app.use(express.json());
 app.use(cors());
+
+// Passport
+app.use(passport.initialize()); // Calling passport
+passport.use(localStrategy);
 
 // Routes
 app.use("/api/products", productsRouter);
@@ -26,8 +30,6 @@ app.use("/api", userRouter);
 app.use("/media", express.static(path.join(__dirname, "media")));
 
 // MiddleWares
-app.use(passport.initialize()); // Calling passport
-passport.use("local", localStrategy);
 app.use(LogURL); // Console Log URL
 app.use(Logger); // Path Not Found
 app.use(ErrorHandler); // Handle Errors

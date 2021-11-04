@@ -11,3 +11,5 @@ router.post(
 );
 
 module.exports = router;
+
+("req.logIn is not a function");

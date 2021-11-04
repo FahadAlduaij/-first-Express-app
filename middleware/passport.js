@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
+const JWTStrategy = require("passport-jwt");
 const User = require("../db/models/User");
 
 exports.localStrategy = new LocalStrategy(async (username, password, done) => {
@@ -9,9 +10,16 @@ exports.localStrategy = new LocalStrategy(async (username, password, done) => {
 			? await bcrypt.compare(password, user.password)
 			: false;
 
-		if (passwordMatch) return done(null, user);
-		return done(null, false);
+		if (passwordMatch) {
+			return done(null, user);
+		} else {
+			return done(null, false);
+		}
 	} catch (error) {
 		return done(error);
 	}
 });
+
+// exports.jwtStrategy = new JWTStrategy({
+//     jwtFromRequest: fromAuthHeaderAsBrearer
+// } , () => {})
