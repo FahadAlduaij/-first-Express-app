@@ -18,6 +18,7 @@ exports.fetchType = async (req, res, next) => {
 			.populate({
 				path: "product",
 				select: "-shop",
+				populate: { path: "author", select: "username" },
 			})
 			.populate({
 				path: "owner",
