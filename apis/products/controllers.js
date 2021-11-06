@@ -33,7 +33,7 @@ exports.fetchProduct = async (req, res, next) => {
 // Delete Product
 exports.deleteProduct = async (req, res, next) => {
 	try {
-		if (!req.user._id.equals(req.product.owner))
+		if (!req.user._id.equals(req.product.author))
 			return next({
 				status: 401,
 				message: "Unauthorized",

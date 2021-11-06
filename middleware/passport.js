@@ -28,7 +28,13 @@ exports.jwtStrategy = new JWTStrategy(
 		secretOrKey: process.env.JWT_SECRET,
 	},
 	async (payload, done) => {
-		if (Date.now() < payload.exp) {
+		// Using expiresIn when Generate a Token
+		// It returns the time in seconds not milliSeconds.
+		// So when you're comparing to Date.now() which gives the time in ms,
+		// So you either divide Date.now() by 1000 or multiply exp by 1000.
+
+		const exp = payload.exp * 1000;
+		if (Date.now() > exp) {
 			return done(null, false);
 		}
 		try {
