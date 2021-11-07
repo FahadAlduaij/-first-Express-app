@@ -38,6 +38,10 @@ router.post(
 	upload.single("image"),
 	createProduct
 );
-router.delete("/:shopID", deleteType);
+router.delete(
+	"/:shopID",
+	passport.authenticate("jwt", { session: false }),
+	deleteType
+);
 
 module.exports = router;

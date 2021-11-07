@@ -36,7 +36,7 @@ exports.deleteProduct = async (req, res, next) => {
 		if (!req.user._id.equals(req.product.author))
 			return next({
 				status: 401,
-				message: "Unauthorized",
+				message: "Not The Owner",
 			});
 
 		await Product.deleteOne(req.product);

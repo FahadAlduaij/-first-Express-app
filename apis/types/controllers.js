@@ -80,7 +80,14 @@ exports.createProduct = async (req, res, next) => {
 
 exports.deleteType = async (req, res, next) => {
 	try {
-		await Type.remove({ _id: req.shop });
+		if (!req.user._id.equals(req.shop.owner)) {
+			return next({
+				status: 401,
+				message: "No",
+			});
+		}
+
+		await Type.deleteOne(req.shop);
 		return res.status(204).end();
 	} catch (error) {
 		next(error);
